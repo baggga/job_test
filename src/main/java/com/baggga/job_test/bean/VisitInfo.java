@@ -1,8 +1,14 @@
 package com.baggga.job_test.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class VisitInfo {
+    @Id
+    @GeneratedValue
     private long userId;
     private String pageId;
     private Date visitTime;
