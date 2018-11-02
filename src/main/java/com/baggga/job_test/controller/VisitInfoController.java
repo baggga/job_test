@@ -3,11 +3,11 @@ package com.baggga.job_test.controller;
 import com.baggga.job_test.bean.VisitInfo;
 import com.baggga.job_test.service.VisitInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("visit-info")
@@ -20,13 +20,14 @@ public class VisitInfoController {
         this.visitInfoService = visitInfoService;
     }
 
-    @RequestMapping(value = "/")
-    public List<VisitInfo> index() {
+    @GetMapping()
+    List<VisitInfo> list() {
         return visitInfoService.findAll();
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create() {
-        return "Create";
+    @PostMapping()
+    VisitInfo create(@RequestBody VisitInfo visitInfo) throws InterruptedException, ExecutionException {
+        visitInfo.setVisitTime(LocalDate.now());
+        return visitInfoService.create(visitInfo).get();
     }
 }

@@ -1,22 +1,22 @@
 package com.baggga.job_test.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class VisitInfo {
     @Id
     @GeneratedValue
     private long userId;
+
     private String pageId;
-    private Date visitTime;
+
+    private LocalDate visitTime;
 
     public VisitInfo() {
     }
 
-    public VisitInfo(long userId, String pageId, Date visitTime) {
+    public VisitInfo(long userId, String pageId, LocalDate visitTime) {
         this.userId = userId;
         this.pageId = pageId;
         this.visitTime = visitTime;
@@ -38,11 +38,11 @@ public class VisitInfo {
         this.pageId = pageId;
     }
 
-    public Date getVisitTime() {
+    public LocalDate getVisitTime() {
         return visitTime;
     }
 
-    public void setVisitTime(Date visitTime) {
+    public void setVisitTime(LocalDate visitTime) {
         this.visitTime = visitTime;
     }
 }
