@@ -1,4 +1,4 @@
 FROM java:8
-ADD src/main/java/com/baggga/job_test .
-RUN javac Main.java
-CMD ["java", "Main"]
+EXPOSE 8080
+ADD /target/job_test.jar job_test.jar
+ENTRYPOINT ["java","-jar","job_test.jar"]

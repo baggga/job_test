@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping("visit-info")
 public class VisitInfoController {
 
+    private final VisitInfoService visitInfoService;
+
     @Autowired
-    private VisitInfoService visitInfoService;
+    public VisitInfoController(VisitInfoService visitInfoService) {
+        this.visitInfoService = visitInfoService;
+    }
 
     @RequestMapping(value = "/")
     public List<VisitInfo> index() {

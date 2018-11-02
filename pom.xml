@@ -62,6 +62,11 @@
                             <name>job_test</name>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
+                                <assembly>
+                                    <mode>dir</mode>
+                                    <targetDir>/job_test</targetDir>
+                                    <descriptor>${project.basedir}/assembly.xml</descriptor>
+                                </assembly>
                             </build>
                         </image>
                     </images>

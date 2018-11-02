@@ -1,0 +1,5 @@
+com\baggga\job_test\Application.class
+com\baggga\job_test\controller\VisitInfoController.class
+com\baggga\job_test\repository\VisitInfoRepository.class
+com\baggga\job_test\bean\VisitInfo.class
+com\baggga\job_test\service\VisitInfoService.class
