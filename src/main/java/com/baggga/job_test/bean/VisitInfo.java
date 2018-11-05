@@ -4,29 +4,43 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "visitinfo")
 public class VisitInfo {
     @Id
     @GeneratedValue
-    private long userId;
-
+    private long id;
+    private String userId;
     private String pageId;
-
+    @Column(name = "visittime")
     private LocalDate visitTime;
 
     public VisitInfo() {
     }
 
-    public VisitInfo(long userId, String pageId, LocalDate visitTime) {
+    public VisitInfo(String userId, String pageId) {
+        this.userId = userId;
+        this.pageId = pageId;
+    }
+
+    public VisitInfo(String userId, String pageId, LocalDate visitTime) {
         this.userId = userId;
         this.pageId = pageId;
         this.visitTime = visitTime;
     }
 
-    public long getUserId() {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

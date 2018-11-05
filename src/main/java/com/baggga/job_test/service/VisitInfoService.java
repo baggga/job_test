@@ -1,7 +1,5 @@
 package com.baggga.job_test.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.baggga.job_test.bean.VisitInfo;
 import com.baggga.job_test.repository.VisitInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.concurrent.CompletableFuture;
-import java.util.List;
 
 
 @Service
 public class VisitInfoService {
-    private static final Logger logger = LoggerFactory.getLogger(VisitInfoService.class);
-
     private final VisitInfoRepository visitInfoRepository;
 
     @Autowired
@@ -26,24 +21,25 @@ public class VisitInfoService {
         this.visitInfoRepository = visitInfoRepository;
     }
 
-    @Transactional
-    @PostConstruct
-    public void init() {
-        visitInfoRepository.save(new VisitInfo(1, "page1", LocalDate.of(2018, 3, 20)));
-        visitInfoRepository.save(new VisitInfo(2, "page2", LocalDate.of(2018, 2, 13)));
-        visitInfoRepository.save(new VisitInfo(3, "page3", LocalDate.of(2018, 1, 1)));
+    private String createVisitInfo(VisitInfo visitInfo) {
+        LocalDate today = LocalDate.now();
+        visitInfo.setVisitTime(today);
+        visitInfoRepository.save(visitInfo);
+        int totalVisitCount = visitInfoRepository.countAllByVisitTimeIsBetween(today, today);
+        int uniqueUserCount = visitInfoRepository.uniqueUsersCount(today, today);
+        return "{\"totalVisitCount\":" + totalVisitCount + ", \"uniqueUserCount\":" + uniqueUserCount + "}";
     }
 
     @Async
-    public CompletableFuture<VisitInfo> create(VisitInfo visitInfo) throws InterruptedException {
-        logger.info("Save visit info for user " + visitInfo.getUserId());
-        VisitInfo newVisitInfo = visitInfoRepository.save(visitInfo);
-        logger.info("Visit info saved");
-        Thread.sleep(3000L);
-        return CompletableFuture.completedFuture(newVisitInfo);
+    public CompletableFuture<String> asyncCreateVisitInfo(VisitInfo visitInfo) {
+        return CompletableFuture.completedFuture(createVisitInfo(visitInfo));
     }
 
-    public List<VisitInfo> findAll() {
-        return visitInfoRepository.findAll();
+    public String getStatisticsForPeriod(LocalDate from, LocalDate to) {
+        int totalVisitCount = visitInfoRepository.countAllByVisitTimeIsBetween(from, to);
+        int uniqueUserCount = visitInfoRepository.uniqueUsersCount(from, to);
+        int regularUserCount = visitInfoRepository.regularUsersCount(from, to);
+        return "{\"totalVisitCount\":" + totalVisitCount + ", \"uniqueUserCount\":" + uniqueUserCount + ", " +
+                "\"regularUserCount\":" + regularUserCount + "}";
     }
 }
