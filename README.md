@@ -9,5 +9,5 @@ mvn clean install
 ## build docker compose
 docker-compose build
 
-##start up all instances
+## start up all instances
 docker-compose up
